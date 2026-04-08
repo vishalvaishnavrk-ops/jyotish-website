@@ -615,18 +615,28 @@ const reviewData = [
 { name:"Komal Jain", city:"Bhopal", text:"personal problems का solution मिला" }
 ];
 
-// ⭐ stars
-function getStars(){
-    return "★★★★★";
+// 📅 random realistic date
+function getRealDate(){
+
+    const now = new Date();
+    const past = new Date(now - Math.random()*7*24*60*60*1000);
+
+    const day = past.getDate();
+    const month = past.toLocaleString('default', { month: 'short' });
+
+    return `${day} ${month}`;
 }
 
-// 🕒 time
-function getTime(){
-    const mins = Math.floor(Math.random()*180);
+// 🕒 human style time
+function getTimeLabel(){
 
-    if(mins < 5) return "अभी";
-    if(mins < 60) return `${mins} मिनट पहले`;
-    return `${Math.floor(mins/60)} घंटे पहले`;
+    const r = Math.random();
+
+    if(r < 0.3) return "आज";
+    if(r < 0.6) return "कल";
+    if(r < 0.85) return "2 दिन पहले";
+
+    return getRealDate(); // 🔥 fallback actual date
 }
 
 // 🔠 initials
@@ -639,51 +649,71 @@ function shuffle(arr){
     return arr.sort(()=>0.5 - Math.random());
 }
 
-function loadReviews(){
+// 🔥 render single review
+function renderReview(r){
+    return `
+    <div class="review-box">
 
-    let shuffled = shuffle([...reviewData]);
-    let html = "";
+        <div class="review-header">
 
-    shuffled.slice(0,6).forEach(r=>{
+            <div class="review-left">
+                <div class="review-avatar">${getInitial(r.name)}</div>
 
-        html += `
-        <div class="review-box">
-
-            <div class="review-header">
-
-                <div class="review-left">
-                    <div class="review-avatar">${getInitial(r.name)}</div>
-
-                    <div>
-                        <div class="review-name">
-                            ${r.name}
-                            <span class="review-verified">✔ Verified</span>
-                        </div>
-                        <div class="review-meta">${r.city} • ${getTime()}</div>
+                <div>
+                    <div class="review-name">
+                        ${r.name}
+                        <span class="review-verified">✔ Verified</span>
                     </div>
+                    <div class="review-meta">${r.city} • ${getTimeLabel()}</div>
                 </div>
-
-                <!-- Google feel -->
-                <div style="font-size:10px;color:#777;">Google</div>
-
             </div>
 
-            <div class="review-stars">${getStars()}</div>
-
-            <div class="review-text">${r.text}</div>
+            <div style="font-size:10px;color:#777;">Google</div>
 
         </div>
-        `;
-    });
 
-    document.getElementById("reviewContainer").innerHTML = html;
+        <div class="review-stars">★★★★★</div>
+
+        <div class="review-text">${r.text}</div>
+
+    </div>
+    `;
 }
 
-// first load
-loadReviews();
+let currentReviews = [];
 
-// auto refresh
-setInterval(loadReviews, 12000);
+// 🔥 initial load (6 reviews)
+function loadInitial(){
+
+    let shuffled = shuffle([...reviewData]);
+    currentReviews = shuffled.slice(0,6);
+
+    const container = document.getElementById("reviewContainer");
+
+    container.innerHTML = currentReviews.map(r=>renderReview(r)).join("");
+}
+
+// 🔄 replace ONLY ONE review (real feel)
+function updateOneReview(){
+
+    const container = document.getElementById("reviewContainer");
+
+    const boxes = container.children;
+
+    const randomIndex = Math.floor(Math.random()*boxes.length);
+
+    const newReview = reviewData[Math.floor(Math.random()*reviewData.length)];
+
+    boxes[randomIndex].innerHTML = renderReview(newReview);
+}
+
+// 🔥 START
+setTimeout(loadInitial, 2000);
+
+// 🔁 VERY SLOW + RANDOM UPDATE (REAL HUMAN BEHAVIOR)
+setInterval(()=>{
+    updateOneReview();
+}, 90000 + Math.random()*60000);  // 1.5 to 2.5 min
 
 </script>  
 
