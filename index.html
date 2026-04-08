@@ -103,7 +103,19 @@ footer{background:#4a0c0c;color:#fff;text-align:center;padding:15px;font-size:14
   .header-btn{margin-top:12px;align-self:flex-start}
 }
 
-img{max-width:100%; height:auto;}
+body{
+overflow-x:hidden;
+}
+
+section{
+max-width:100%;
+overflow:hidden;
+}
+
+img{
+max-width:100%;
+height:auto;
+}
 
 section{padding:25px 15px;}
 
@@ -111,10 +123,44 @@ h2{font-size:20px;}
 
 .header-btn{width:100%; text-align:center;}
 
-.btn{width:100%;}
+.btn{
+display:inline-block;
+padding:14px 20px;
+text-align:center;
+border-radius:30px;
+max-width:400px;
+width:100%;
+margin:auto;
+}
+
+.header-btn{
+max-width:300px;
+}
+
+@media (max-width:768px){
+.header-btn{
+width:90%;
+display:block;
+margin:15px auto;
+}
+}
 
 form input, form select, form textarea{
 font-size:16px;
+}
+
+.review-box{
+background:#eef5ef;
+padding:15px;
+border-radius:12px;
+margin-bottom:10px;
+box-shadow:0 2px 6px rgba(0,0,0,0.05);
+}
+
+.review-name{
+font-weight:700;
+color:#2d5a2d;
+margin-bottom:5px;
 }
   
 </style>
@@ -361,33 +407,37 @@ https://aacharyavishalvaishnav.pages.dev/
 </script>
 
 <script>
-const reviews = [
-  "20 दिनों में करियर में बदलाव आया",
-  "विवाह समस्या का समाधान मिला",
-  "सटीक मार्गदर्शन मिला",
-  "आत्मविश्वास बढ़ा",
-  "जीवन में स्पष्टता आई"
+const reviewData = [
+  {name:"Rahul Sharma", text:"मेरे करियर में बड़ा बदलाव आया, सही दिशा मिली"},
+  {name:"Pooja Verma", text:"विवाह समस्या का समाधान मिला"},
+  {name:"Amit Patel", text:"बहुत सटीक मार्गदर्शन मिला"},
+  {name:"Sneha Gupta", text:"जीवन में स्पष्टता आई"},
+  {name:"Rohit Yadav", text:"आत्मविश्वास बढ़ा"},
+  {name:"Kiran Joshi", text:"धन संबंधी समस्या दूर हुई"},
+  {name:"Neha Singh", text:"बहुत अच्छा अनुभव रहा"},
+  {name:"Vikas Mehta", text:"हर बात बिल्कुल सही निकली"},
+  {name:"Anjali Desai", text:"सटीक और प्रभावी सलाह मिली"}
 ];
 
-const names = [
-  "रमेश शर्मा","पूजा वर्मा","अजय पटेल",
-  "सीमा अग्रवाल","रोहित यादव"
-];
+function shuffle(array){
+  return array.sort(()=>0.5 - Math.random());
+}
 
 function loadReviews(){
+  let shuffled = shuffle([...reviewData]);
   let html = "";
-  for(let i=0;i<5;i++){
-    let name = names[Math.floor(Math.random()*names.length)];
-    let text = reviews[Math.floor(Math.random()*reviews.length)];
 
+  shuffled.slice(0,6).forEach(r=>{
     html += `
     <div class="review-box">
-      <div class="review-name">${name}</div>
-      ${text}
+      <div class="review-name">${r.name}</div>
+      ${r.text}
     </div>`;
-  }
+  });
+
   document.getElementById("reviewContainer").innerHTML = html;
 }
+
 loadReviews();
 </script>  
 
@@ -396,29 +446,48 @@ position:fixed;
 bottom:20px;
 left:20px;
 background:#fff;
-padding:10px 15px;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.2);
-font-size:13px;
+padding:12px 18px;
+border-radius:12px;
+box-shadow:0 5px 20px rgba(0,0,0,0.2);
+font-size:14px;
 display:none;
 z-index:999;
+min-width:220px;
 "></div>
 
 <script>
-const popupNames = ["Rahul","Amit","Sneha","Priya","Karan"];
-const plans = ["₹51 Plan","₹151 Plan","₹251 Plan"];
+const popupData = [
+  {name:"Rahul", plan:"₹51 Plan"},
+  {name:"Amit", plan:"₹151 Plan"},
+  {name:"Sneha", plan:"₹251 Plan"},
+  {name:"Priya", plan:"₹51 Plan"},
+  {name:"Karan", plan:"₹151 Plan"},
+  {name:"Neha", plan:"₹251 Plan"},
+  {name:"Vikas", plan:"₹51 Plan"},
+  {name:"Ritu", plan:"₹151 Plan"},
+  {name:"Ankit", plan:"₹251 Plan"}
+];
+
+let index = 0;
 
 function showPopup(){
-  const name = popupNames[Math.floor(Math.random()*popupNames.length)];
-  const plan = plans[Math.floor(Math.random()*plans.length)];
+  let item = popupData[index];
 
   const popup = document.getElementById("popup");
-  popup.innerHTML = `${name} ने अभी ${plan} खरीदा`;
+
+  popup.innerHTML = `
+  <strong>${item.name}</strong> ने अभी 
+  <span style="color:#8b0000; font-weight:600;">${item.plan}</span> खरीदा
+  `;
+
   popup.style.display = "block";
 
-  setTimeout(()=>{ popup.style.display="none"; },3000);
+  setTimeout(()=>{ popup.style.display="none"; },4000);
+
+  index = (index + 1) % popupData.length;
 }
-setInterval(showPopup, 7000);
+
+setInterval(showPopup, 6000);
 </script>
   
 </body>
