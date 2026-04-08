@@ -221,10 +221,10 @@ padding:12px 18px;
 position:fixed;
 bottom:20px;
 left:20px;
-background:#fff;
+background:linear-gradient(135deg,#fff,#fff7f2);
 padding:12px 16px;
-border-radius:16px;   /* 🔥 square-rounded (premium) */
-box-shadow:0 8px 25px rgba(0,0,0,0.15);
+border:1px solid #f3d5c8;
+box-shadow:0 10px 30px rgba(139,0,0,0.15);
 font-size:13px;
 display:none;
 z-index:9999;
@@ -613,7 +613,7 @@ function showPopup(){
   const popup = document.getElementById("popup");
 
   popup.innerHTML = `
-  <strong>${name}</strong> (${city}) ने अभी 
+  <strong>${name}</strong> (${city}) ने 
   <span>${plan}</span> खरीदा
   <span class="popup-time">🕒 ${timeAgo}</span>
   `;
