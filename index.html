@@ -56,7 +56,9 @@ body{margin:0;font-family:Poppins;background:#fff7f2;color:#3b1d1d}
 header{background:linear-gradient(135deg,#ff9933,#ffcccc);border-bottom:4px solid #b71c1c;position:sticky;top:0;z-index:999}
 .header-flex{display:flex;align-items:center;justify-content:space-between;gap:20px;max-width:1100px;margin:auto;padding:16px 20px}
 .header-left{display:flex;align-items:center;gap:15px}
-.header-left img{height:70px}
+.header-left img{
+height:85px;   /* 🔥 desktop bigger */
+}
 .header-text h1{margin:0;color:#7b1f1f;font-size:26px}
 .header-text p{margin:4px 0 0;font-size:15px;font-weight:500}
 .mantra{font-size:14px;color:#8b0000;font-weight:600}
@@ -101,8 +103,12 @@ footer{background:#4a0c0c;color:#fff;text-align:center;padding:15px;font-size:14
   .header-flex{flex-direction:column;align-items:flex-start}
   .header-text h1{font-size:20px;white-space:nowrap}
   .header-btn{margin-top:12px;align-self:flex-start}
-}
 
+  .header-left img{
+    height:70px;
+  }
+}
+  
 /* ===== GLOBAL FIX ===== */
 body{
 margin:0;
