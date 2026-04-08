@@ -103,58 +103,85 @@ footer{background:#4a0c0c;color:#fff;text-align:center;padding:15px;font-size:14
   .header-btn{margin-top:12px;align-self:flex-start}
 }
 
+/* ===== GLOBAL FIX ===== */
 body{
+margin:0;
+font-family:Poppins;
+background:#fff7f2;
+color:#3b1d1d;
 overflow-x:hidden;
 }
 
+/* ===== CONTAINER ===== */
+.container{
+max-width:1100px;
+margin:0 auto;
+padding:0 15px;
+}
+
+/* ===== SECTION ===== */
 section{
-max-width:100%;
-overflow:hidden;
+padding:40px 20px;
 }
 
-img{
-max-width:100%;
-height:auto;
-}
-
-section{padding:25px 15px;}
-
-h2{font-size:20px;}
-
-.header-btn{width:100%; text-align:center;}
-
+/* ===== BUTTON ===== */
 .btn{
 display:inline-block;
-padding:14px 20px;
-text-align:center;
+padding:12px 22px;
 border-radius:30px;
-max-width:400px;
+text-align:center;
+margin:10px auto;
+max-width:280px;
+width:auto;
+background:#8b0000;
+color:#fff;
+font-weight:600;
+border:none;
+}
+
+.header-btn{
+width:auto;
+}
+
+/* ===== FORM ===== */
+form{
+max-width:650px;
+margin:0 auto;
+background:#fff;
+padding:20px;
+border-radius:12px;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+form input,
+form select,
+form textarea{
 width:100%;
-margin:auto;
+padding:10px;
+margin:6px 0;
+border-radius:6px;
+border:1px solid #ccc;
 }
 
-.header-btn{
-max-width:300px;
+/* ===== REVIEW GRID ===== */
+#reviewContainer{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px;
 }
 
-@media (max-width:768px){
-.header-btn{
-width:90%;
-display:block;
-margin:15px auto;
+@media(max-width:768px){
+#reviewContainer{
+grid-template-columns:1fr;
 }
 }
 
-form input, form select, form textarea{
-font-size:16px;
-}
-
+/* ===== REVIEW BOX ===== */
 .review-box{
 background:#eef5ef;
 padding:15px;
 border-radius:12px;
-margin-bottom:10px;
-box-shadow:0 2px 6px rgba(0,0,0,0.05);
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
 
 .review-name{
@@ -162,6 +189,22 @@ font-weight:700;
 color:#2d5a2d;
 margin-bottom:5px;
 }
+
+/* ===== MOBILE ===== */
+@media (max-width:768px){
+
+.header-flex{
+flex-direction:column;
+align-items:center;
+text-align:center;
+}
+
+.header-btn{
+width:90%;
+margin-top:10px;
+}
+
+}  
   
 </style>
 </head>
@@ -200,12 +243,14 @@ margin-bottom:5px;
 करियर, विवाह, धन या स्वास्थ्य — आपकी हथेली में छिपा है समाधान
 </p>
 
+<div style="text-align:center;">
 <a href="#palmForm" class="btn" style="margin-top:15px; display:inline-block;">
 अभी अपनी रिपोर्ट बनवाएँ
 </a>
+</div>  
 </section>
   
-<section>
+<section class="container">
 <h2>📸 अपनी हथेली की फोटो इस तरह स्पष्ट भेजें</h2>
 <p>नीचे दिए गए डेमो के अनुसार साफ रोशनी में फोटो भेजें ताकि आपकी हस्तरेखा पढ़ाई सटीक हो सके।</p>
 <div class="demo-grid">
@@ -216,7 +261,7 @@ margin-bottom:5px;
 </div>
 </section>
 
-<section>
+<section class="container">
 <h2>💎 परामर्श योजनाएँ (पूरी जानकारी)</h2>
 
 <div class="plan">
@@ -260,7 +305,7 @@ margin-bottom:5px;
 </div>
 </section>
 
-<section>
+<section class="container">
 <h2>📩 परामर्श फॉर्म</h2>
 <p style="color:#8b0000; font-weight:600;">
 ⚠️ पहले जानकारी भरें → फिर भुगतान करें → फिर WhatsApp पर भेजें
@@ -309,7 +354,7 @@ margin-bottom:5px;
 </form>
 </section>
 
-<section>
+<section class="container">
 <h2>💬 क्लाइंट्स के अनुभव</h2>
 
 <p style="text-align:center; font-weight:600; color:#8b0000;">
