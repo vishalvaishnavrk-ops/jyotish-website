@@ -220,26 +220,36 @@ padding:12px 18px;
 #popup{
 position:fixed;
 bottom:20px;
-left:50%;
-transform:translateX(-50%);
+left:20px;
 background:#fff;
-padding:14px 22px;
-border-radius:30px;
+padding:12px 16px;
+border-radius:16px;   /* 🔥 square-rounded (premium) */
 box-shadow:0 8px 25px rgba(0,0,0,0.15);
-font-size:14px;
+font-size:13px;
 display:none;
 z-index:9999;
-min-width:220px;
-white-space:nowrap;
-animation:fadeInUp 0.5s ease;
+min-width:200px;
+max-width:260px;
+animation:fadeInUp 0.4s ease;
 }
 
+/* 🔥 Name */
 #popup strong{
-color:#333;
+color:#222;
 }
 
+/* 🔥 Plan highlight */
 #popup span{
-margin-left:5px;
+color:#8b0000;
+font-weight:600;
+}
+
+/* 🔥 Time style */
+.popup-time{
+display:block;
+font-size:11px;
+color:#777;
+margin-top:4px;
 }
   
 </style>
@@ -559,38 +569,81 @@ loadReviews();
 <div id="popup"></div>
 
 <script>
-const popupData = [
-  {name:"Rahul", plan:"₹51 Plan"},
-  {name:"Amit", plan:"₹151 Plan"},
-  {name:"Sneha", plan:"₹251 Plan"},
-  {name:"Priya", plan:"₹51 Plan"},
-  {name:"Karan", plan:"₹151 Plan"},
-  {name:"Neha", plan:"₹251 Plan"},
-  {name:"Vikas", plan:"₹51 Plan"},
-  {name:"Ritu", plan:"₹151 Plan"},
-  {name:"Ankit", plan:"₹251 Plan"}
+
+const names = [
+"Rahul","Amit","Sneha","Priya","Karan",
+"Neha","Vikas","Ritu","Ankit","Pooja",
+"Rohit","Sanjay","Meena","Deepak","Komal","Rinkal","Nandani","Audhesh","Tej","Reema","Laxman","Ramswaroop","Ananya","Geeta","Brijesh"
 ];
 
-let index = 0;
+const cities = [
+"Surat","Ahmedabad","Delhi","Mumbai","Jaipur",
+"Lucknow","Indore","Bhopal","Nagpur","Pune","Bikaner",
+"Jaipur","Jodhpur","Rajkot","Ahamadnagar","Bhopal","Ujjain","Jalor","Vadodara","Varanashi",
+"Valsad","Vapi","Dausa","Ganganagar","Ayodhya","Jhansi","jorhat","Guwahati","Tinsukia","Patna","Nagaur","Imphal","Ittanagar"
+];
+
+const plans = [
+"₹51 Plan",
+"₹151 Plan",
+
+"₹251 Plan","₹251 Plan","₹251 Plan",   // 🔥 more weight
+
+"₹501 Plan","₹501 Plan","₹501 Plan","₹501 Plan"  // 🔥 highest weight
+];
+  
+// 🔥 RANDOM TIME (like 2 min ago)
+function getTimeAgo(){
+    const mins = Math.floor(Math.random() * 59) + 1;
+
+    if(mins < 5) return `${mins} मिनट पहले`;
+    if(mins < 30) return `${mins} मिनट पहले`;
+    return `${Math.floor(mins/60)} घंटे पहले`;
+}
+
+let popupShown = false;
 
 function showPopup(){
-  let item = popupData[index];
+
+  const name = names[Math.floor(Math.random() * names.length)];
+  const city = cities[Math.floor(Math.random() * cities.length)];
+  const plan = plans[Math.floor(Math.random() * plans.length)];
+  const timeAgo = getTimeAgo();
 
   const popup = document.getElementById("popup");
 
   popup.innerHTML = `
-  <strong>${item.name}</strong> ने अभी 
-  <span style="color:#8b0000; font-weight:600;">${item.plan}</span> खरीदा
+  <strong>${name}</strong> (${city}) ने अभी 
+  <span>${plan}</span> खरीदा
+  <span class="popup-time">🕒 ${timeAgo}</span>
   `;
 
   popup.style.display = "block";
 
-  setTimeout(()=>{ popup.style.display="none"; },4000);
-
-  index = (index + 1) % popupData.length;
+  setTimeout(()=>{
+    popup.style.display = "none";
+  }, 4000);
 }
 
-setInterval(showPopup, 6000);
+// 🔥 SCROLL BASED TRIGGER (REAL FEEL)
+window.addEventListener("scroll", function(){
+
+    if(!popupShown && window.scrollY > 200){
+        popupShown = true;
+
+        setTimeout(()=>{
+            showPopup();
+
+            // 🔁 Repeat with random delay
+            setInterval(()=>{
+                showPopup();
+            }, 7000 + Math.random()*5000);
+
+        }, 1500);
+    }
+
+});
+
 </script>
   
 </body>
