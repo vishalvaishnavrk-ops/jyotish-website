@@ -208,8 +208,7 @@ text-align:center;
 
 .header-btn{
 width:auto !important;
-max-width:260px;
-align:center;  
+max-width:260px;  
 padding:12px 18px;
 }
 
@@ -360,11 +359,14 @@ white-space:nowrap;
 </label>
 <input type="file" name="images" multiple required>
 <small style="color:#8b0000">* हथेली की 4 फोटो अनिवार्य हैं</small>
-<button class="btn" type="button" onclick="sendWhatsApp()">
+<button class="btn" type="button" id="submitBtn" onclick="sendWhatsApp()">
 अभी जानकारी भेजें & रिपोर्ट शुरू करें
 </button>
 <p id="formSuccessMsg" style="display:none;color:green;font-weight:600;margin-top:10px;">आपकी जानकारी आचार्य जी को प्रेषित हो गई है। धन्यवाद।</p>
-
+<p id="loadingMsg" style="display:none;color:#8b0000;font-weight:600;margin-top:10px;">
+⏳ आपकी जानकारी प्रोसेस हो रही है... कृपया प्रतीक्षा करें
+</p>
+  
 <div class="pay-box">
 <h3>💳 भुगतान करें (UPI)</h3>
 <div class="qr-box">
@@ -403,6 +405,19 @@ white-space:nowrap;
 
 <script>
 function sendWhatsApp(){
+
+  const btn = document.getElementById("submitBtn");
+  const loading = document.getElementById("loadingMsg");
+
+  // 🔒 Prevent multiple clicks
+  if(btn.disabled){
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = "⏳ Processing...";
+  loading.style.display = "block";
+
   const form = document.getElementById("palmForm");
   const formData = new FormData(form);
 
@@ -413,14 +428,16 @@ function sendWhatsApp(){
   .then(res => res.json())
   .then(data => {
     if(data.success){
+
       const clientCode = data.client_code;
-      const name=document.getElementById("client_name").value;
-      const phone=document.getElementById("phone").value;
-      const dob=document.getElementById("dob").value;
-      const tob=document.getElementById("tob").value;
-      const place=document.getElementById("place").value;
-      const plan=document.getElementById("plan").value;
-      const question=document.getElementById("question").value;
+
+      const name = document.getElementById("client_name").value;
+      const phone = document.getElementById("phone").value;
+      const dob = document.getElementById("dob").value;
+      const tob = document.getElementById("tob").value;
+      const place = document.getElementById("place").value;
+      const plan = document.getElementById("plan").value;
+      const question = document.getElementById("question").value;
 
 let msg=`Client Code: ${clientCode}
 
@@ -457,24 +474,40 @@ https://aacharyavishalvaishnav.pages.dev/upi-qr.png
 https://aacharyavishalvaishnav.pages.dev/
 
 👉 कृपया Payment Screenshot यहीं भेजें  
-👉 Client Code जरूर लिखें
-👉 बिना *Payment Screenshot* भेजे आपका अनुरोध process नहीं किया जाएगा
+👉 Client Code जरूर लिखें  
+👉 बिना *Payment Screenshot* भेजे आपका अनुरोध process नहीं किया जाएगा  
 
 रिपोर्ट 12 घंटे में भेज दी जाएगी  
 
 — आचार्य विशाल वैष्णव`;
 
-      location.href = "https://wa.me/916000376976?text=" + encodeURIComponent(msg);
+      // थोड़ी delay ताकि user loading देखे
+      setTimeout(()=>{
+        window.location.href = "https://wa.me/916000376976?text=" + encodeURIComponent(msg);
+      }, 1000);
+
       document.getElementById("palmForm").reset();
       document.getElementById("formSuccessMsg").style.display = "block";
+      loading.style.display = "none";
+
     } else {
       alert("डेटा सबमिट नहीं हुआ, कृपया पुनः प्रयास करें।");
+
+      btn.disabled = false;
+      btn.innerHTML = "अभी जानकारी भेजें & रिपोर्ट शुरू करें";
+      loading.style.display = "none";
     }
   })
-  .catch(() => alert("नेटवर्क समस्या, बाद में प्रयास करें।"));
+  .catch(() => {
+    alert("नेटवर्क समस्या, बाद में प्रयास करें।");
+
+    btn.disabled = false;
+    btn.innerHTML = "अभी जानकारी भेजें & रिपोर्ट शुरू करें";
+    loading.style.display = "none";
+  });
 }
 </script>
-
+  
 <script>
 const reviewData = [
   {name:"Rahul Sharma", text:"मेरे करियर में बड़ा बदलाव आया, सही दिशा मिली"},
