@@ -185,18 +185,87 @@ grid-template-columns:1fr;
 
 /* ===== REVIEW BOX ===== */
 .review-box{
-background:#eef5ef;
-padding:15px;
-border-radius:12px;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
+background:#fff;
+padding:14px;
+border-radius:14px;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+border:1px solid #eee;
+animation:fadeUp 0.6s ease;
 }
 
+.review-header{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:6px;
+}
+
+.review-left{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+/* 🔵 profile circle */
+.review-avatar{
+width:36px;
+height:36px;
+border-radius:50%;
+background:#8b0000;
+color:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:600;
+font-size:14px;
+}
+
+/* name */
 .review-name{
-font-weight:700;
-color:#2d5a2d;
-margin-bottom:5px;
+font-weight:600;
+color:#222;
+font-size:14px;
 }
 
+/* verified */
+.review-verified{
+font-size:10px;
+color:#34a853;
+margin-left:5px;
+}
+
+/* meta */
+.review-meta{
+font-size:11px;
+color:#777;
+}
+
+/* stars */
+.review-stars{
+color:#f4b400;
+font-size:14px;
+margin:4px 0;
+}
+
+/* text */
+.review-text{
+font-size:13px;
+color:#444;
+line-height:1.4;
+}
+
+/* animation */
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(10px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+  
 /* ===== MOBILE ===== */
 @media (max-width:768px){
 
@@ -532,38 +601,90 @@ https://aacharyavishalvaishnav.pages.dev/
 </script>
   
 <script>
+
 const reviewData = [
-  {name:"Rahul Sharma", text:"मेरे करियर में बड़ा बदलाव आया, सही दिशा मिली"},
-  {name:"Pooja Verma", text:"विवाह समस्या का समाधान मिला"},
-  {name:"Amit Patel", text:"बहुत सटीक मार्गदर्शन मिला"},
-  {name:"Sneha Gupta", text:"जीवन में स्पष्टता आई"},
-  {name:"Rohit Yadav", text:"आत्मविश्वास बढ़ा"},
-  {name:"Kiran Joshi", text:"धन संबंधी समस्या दूर हुई"},
-  {name:"Neha Singh", text:"बहुत अच्छा अनुभव रहा"},
-  {name:"Vikas Mehta", text:"हर बात बिल्कुल सही निकली"},
-  {name:"Anjali Desai", text:"सटीक और प्रभावी सलाह मिली"}
+{ name:"Rahul Sharma", city:"Surat", text:"रिपोर्ट बहुत सटीक थी, करियर में स्पष्ट दिशा मिली" },
+{ name:"Pooja Verma", city:"Delhi", text:"विवाह से जुड़ी समस्या का सही समाधान मिला" },
+{ name:"Amit Patel", city:"Ahmedabad", text:"हथेली पढ़ने का तरीका बिल्कुल अलग और सटीक लगा" },
+{ name:"Sneha Gupta", city:"Mumbai", text:"जीवन में जो confusion था वो काफी हद तक clear हुआ" },
+{ name:"Rohit Yadav", city:"Lucknow", text:"बहुत ही सही guidance मिला, धन्यवाद आचार्य जी" },
+{ name:"Neha Singh", city:"Jaipur", text:"पहली बार इतना accurate analysis मिला" },
+{ name:"Vikas Mehta", city:"Indore", text:"career और finance दोनों पर clear direction मिला" },
+{ name:"Anjali Desai", city:"Surat", text:"report पढ़कर काफी confidence आया" },
+{ name:"Deepak Kumar", city:"Patna", text:"सही समय पर सही मार्गदर्शन मिला" },
+{ name:"Komal Jain", city:"Bhopal", text:"personal problems का solution मिला" }
 ];
 
-function shuffle(array){
-  return array.sort(()=>0.5 - Math.random());
+// ⭐ stars
+function getStars(){
+    return "★★★★★";
+}
+
+// 🕒 time
+function getTime(){
+    const mins = Math.floor(Math.random()*180);
+
+    if(mins < 5) return "अभी";
+    if(mins < 60) return `${mins} मिनट पहले`;
+    return `${Math.floor(mins/60)} घंटे पहले`;
+}
+
+// 🔠 initials
+function getInitial(name){
+    return name.charAt(0);
+}
+
+// 🔀 shuffle
+function shuffle(arr){
+    return arr.sort(()=>0.5 - Math.random());
 }
 
 function loadReviews(){
-  let shuffled = shuffle([...reviewData]);
-  let html = "";
 
-  shuffled.slice(0,6).forEach(r=>{
-    html += `
-    <div class="review-box">
-      <div class="review-name">${r.name}</div>
-      ${r.text}
-    </div>`;
-  });
+    let shuffled = shuffle([...reviewData]);
+    let html = "";
 
-  document.getElementById("reviewContainer").innerHTML = html;
+    shuffled.slice(0,6).forEach(r=>{
+
+        html += `
+        <div class="review-box">
+
+            <div class="review-header">
+
+                <div class="review-left">
+                    <div class="review-avatar">${getInitial(r.name)}</div>
+
+                    <div>
+                        <div class="review-name">
+                            ${r.name}
+                            <span class="review-verified">✔ Verified</span>
+                        </div>
+                        <div class="review-meta">${r.city} • ${getTime()}</div>
+                    </div>
+                </div>
+
+                <!-- Google feel -->
+                <div style="font-size:10px;color:#777;">Google</div>
+
+            </div>
+
+            <div class="review-stars">${getStars()}</div>
+
+            <div class="review-text">${r.text}</div>
+
+        </div>
+        `;
+    });
+
+    document.getElementById("reviewContainer").innerHTML = html;
 }
 
+// first load
 loadReviews();
+
+// auto refresh
+setInterval(loadReviews, 12000);
+
 </script>  
 
 <div id="popup"></div>
