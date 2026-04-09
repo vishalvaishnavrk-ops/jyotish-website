@@ -330,6 +330,35 @@ font-size:11px;
 color:#777;
 margin-top:4px;
 }
+
+.payment-flex{
+display:flex;
+align-items:center;
+gap:20px;
+flex-wrap:wrap;
+}
+
+.qr-box img{
+width:140px;
+border-radius:10px;
+}
+
+.payment-details{
+font-size:14px;
+}
+
+.payment-note{
+margin-top:15px;
+font-size:12px;
+color:#777;
+}
+
+@media (max-width:768px){
+.payment-flex{
+flex-direction:column;
+align-items:flex-start;
+}
+}
   
 </style>
 </head>
@@ -465,25 +494,37 @@ margin-top:4px;
 अभी जानकारी भेजें & रिपोर्ट शुरू करें
 </button>
 <p style="font-size:12px;color:#777;">
-By submitting this form, you agree to our Privacy Policy and Terms.
+**By submitting this form, you agree to our Privacy Policy and Terms.
 </p>  
 <p id="formSuccessMsg" style="display:none;color:green;font-weight:600;margin-top:10px;">आपकी जानकारी आचार्य जी को प्रेषित हो गई है। धन्यवाद।</p>
 <p id="loadingMsg" style="display:none;color:#8b0000;font-weight:600;margin-top:10px;">
 ⏳ आपकी जानकारी प्रोसेस हो रही है... कृपया प्रतीक्षा करें
 </p>
   
-<div class="pay-box">
-<h3>💳 भुगतान करें (UPI)</h3>
-<div class="qr-box">
-<img src="upi-qr.png">
-<div>
-<b>UPI ID:</b> 6000376976@ptsbi<br>
-भुगतान के बाद स्क्रीनशॉट WhatsApp पर भेजें
-  
-<p style="font-size:12px;color:#777;">
-All payments are non-refundable once the report generation process begins.
-</p>
-  
+<div class="payment-box">
+
+  <h3>💳 भुगतान करें (UPI)</h3>
+
+  <div class="payment-flex">
+
+    <!-- LEFT QR -->
+    <div class="qr-box">
+      <img src="upi-qr.png" alt="QR Code">
+    </div>
+
+    <!-- RIGHT DETAILS -->
+    <div class="payment-details">
+      <p><strong>UPI ID:</strong> 6000376976@ptsbi</p>
+      <p>भुगतान के बाद स्क्रीनशॉट WhatsApp पर भेजें</p>
+    </div>
+
+  </div>
+
+  <!-- 🔥 BOTTOM NOTE -->
+  <p class="payment-note">
+    All payments are non-refundable once the report generation process begins.
+  </p>
+
 </div>
 </div>
 </div>
