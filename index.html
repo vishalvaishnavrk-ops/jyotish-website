@@ -506,10 +506,6 @@ align-items:flex-start;
 <p style="font-size:12px;color:#777;">
 **By submitting this form, you agree to our Privacy Policy and Terms.
 </p>  
-<p id="formSuccessMsg" style="display:none;color:green;font-weight:600;margin-top:10px;">आपकी जानकारी आचार्य जी को प्रेषित हो गई है। धन्यवाद।</p>
-<p id="loadingMsg" style="display:none;color:#8b0000;font-weight:600;margin-top:10px;">
-⏳ आपकी जानकारी प्रोसेस हो रही है... कृपया प्रतीक्षा करें
-</p>
   
 <div class="payment-box">
 
@@ -620,16 +616,25 @@ function sendWhatsApp(){
 <script>
 
 const reviewData = [
-{ name:"Rahul Sharma", city:"Surat", text:"रिपोर्ट बहुत सटीक थी, करियर में स्पष्ट दिशा मिली" },
-{ name:"Pooja Verma", city:"Delhi", text:"विवाह से जुड़ी समस्या का सही समाधान मिला" },
-{ name:"Amit Patel", city:"Ahmedabad", text:"हथेली पढ़ने का तरीका बिल्कुल अलग और सटीक लगा" },
-{ name:"Sneha Gupta", city:"Mumbai", text:"जीवन में जो confusion था वो काफी हद तक clear हुआ" },
-{ name:"Rohit Yadav", city:"Lucknow", text:"बहुत ही सही guidance मिला, धन्यवाद आचार्य जी" },
-{ name:"Neha Singh", city:"Jaipur", text:"पहली बार इतना accurate analysis मिला" },
-{ name:"Vikas Mehta", city:"Indore", text:"career और finance दोनों पर clear direction मिला" },
-{ name:"Anjali Desai", city:"Surat", text:"report पढ़कर काफी confidence आया" },
-{ name:"Deepak Kumar", city:"Patna", text:"सही समय पर सही मार्गदर्शन मिला" },
-{ name:"Komal Jain", city:"Bhopal", text:"personal problems का solution मिला" }
+{ name:"Rahul Sharma", city:"Surat", text:"रिपोर्ट बहुत सटीक थी और हर बात मेरी life से match कर रही थी। करियर को लेकर जो confusion था, अब काफी clear हो गया है।" },
+{ name:"Pooja Verma", city:"Delhi", text:"विवाह से जुड़ी समस्या को लेकर काफी परेशान थी। आचार्य जी ने जो मार्गदर्शन दिया उससे मन को शांति मिली और सही दिशा समझ आई।" },
+{ name:"Amit Patel", city:"Ahmedabad", text:"हथेली पढ़ने का तरीका बिल्कुल अलग और गहराई वाला लगा। इतनी detail में analysis पहले कभी नहीं देखा था।" },
+{ name:"Sneha Gupta", city:"Mumbai", text:"जीवन में बहुत confusion चल रहा था लेकिन रिपोर्ट पढ़कर काफी clarity मिली। अब decisions लेने में confidence आ रहा है।" },
+{ name:"Rohit Yadav", city:"Lucknow", text:"बहुत ही सटीक guidance मिला और बातें बिल्कुल सच निकली। सच में दिल से धन्यवाद आचार्य जी 🙏" },
+{ name:"Neha Singh", city:"Jaipur", text:"पहली बार किसी ने इतनी accuracy से मेरी situation समझी। रिपोर्ट पढ़कर लगा कि सही जगह से सलाह ली है।" },
+{ name:"Vikas Mehta", city:"Indore", text:"career और finance दोनों को लेकर clear direction मिला। अब आगे क्या करना है वो समझ आ गया है।" },
+{ name:"Anjali Desai", city:"Surat", text:"report पढ़कर काफी confidence आया और negativity कम हुई। सच में बहुत helpful guidance था।" },
+{ name:"Deepak Kumar", city:"Patna", text:"सही समय पर सही मार्गदर्शन मिला। जो समस्याएं चल रही थीं उनके बारे में clarity आई।" },
+{ name:"Komal Jain", city:"Bhopal", text:"personal problems को लेकर बहुत परेशान थी। रिपोर्ट से मन को शांति मिली और solution भी मिला।" },
+
+// 🔥 NEW REVIEWS ADDED
+
+{ name:"Sanjay Mishra", city:"Varanasi", text:"रिपोर्ट पढ़कर लगा जैसे मेरी पूरी life सामने रख दी हो। हर point बिल्कुल सही लगा और guidance बहुत काम का था।" },
+{ name:"Ritika Kapoor", city:"Chandigarh", text:"career और relationship दोनों के बारे में जो बताया गया वो बिल्कुल accurate था। अब काफी clarity महसूस हो रही है।" },
+{ name:"Manish Gupta", city:"Kanpur", text:"इतनी detailed report की उम्मीद नहीं थी। हर चीज step by step समझाई गई जिससे समझना आसान हो गया।" },
+{ name:"Kavita Joshi", city:"Udaipur", text:"मन में जो सवाल थे उनके जवाब मिल गए। अब पहले से ज्यादा positive feel कर रही हूँ।" },
+{ name:"Arjun Singh", city:"Noida", text:"पहले थोड़ा doubt था लेकिन report पढ़कर विश्वास हो गया। बातें सच निकली और guidance practical था।" },
+{ name:"Priyanka Shah", city:"Rajkot", text:"रिपोर्ट बहुत ही clear और समझने में आसान थी। future के लिए जो direction मिला वो बहुत helpful है।" }  
 ];
 
 // 📅 random realistic date
