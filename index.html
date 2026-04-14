@@ -573,105 +573,26 @@ This service is based on astrology & Palm Reading Practice and is intended for g
 <script>
 function sendWhatsApp(){
 
-  const btn = document.getElementById("submitBtn");
-  const loading = document.getElementById("loadingMsg");
-
-  // 🔒 Prevent multiple clicks
-  if(btn.disabled){
-    return;
-  }
-
-  btn.disabled = true;
-  btn.innerHTML = "⏳ Processing...";
-  loading.style.display = "block";
-
   const form = document.getElementById("palmForm");
   const formData = new FormData(form);
 
+  // 🔥 STEP 1 — instant WhatsApp open
+  let msg = `नमस्ते 🙏  
+मैंने आपकी वेबसाइट पर अपनी जानकारी भेज दी है।  
+कृपया आगे की प्रक्रिया बताएं।`;
+
+  window.open("https://wa.me/918404011650?text=" + encodeURIComponent(msg), "_blank");
+
+  // 🔥 STEP 2 — backend save (silent)
   fetch("https://jyotish-backend-gbr9.onrender.com/api/website-submit", {
     method: "POST",
     body: formData
   })
-  .then(res => res.json())
-  .then(data => {
-    if(data.success){
-
-      const clientCode = data.client_code;
-
-      const name = document.getElementById("client_name").value;
-      const phone = document.getElementById("phone").value;
-      const dob = document.getElementById("dob").value;
-      const tob = document.getElementById("tob").value;
-      const place = document.getElementById("place").value;
-      const plan = document.getElementById("plan").value;
-      const question = document.getElementById("question").value;
-
-let msg=`Client Code: ${clientCode}
-
-!! जय श्री राधे !!
-
-आपकी जानकारी सफलतापूर्वक प्राप्त हो गई है।
-
-*हस्तरेखा परामर्श विवरण*:
-*नाम:* ${name}
-*मोबाइल:* ${phone}
-*जन्म तिथि:* ${dob}
-*जन्म समय:* ${tob}
-*जन्म स्थान:* ${place}
-*प्लान:* ${plan}
-
-💳 *Payment Details:*
-
-*Account 1:*
-Name: Aarti Ramawat  
-A/C: 61266765065
-IFSC: SBIN0031573
-STATE BANK OF INDIA
-
-*Account 2:*
-Name: Vishal Vaishnav  
-A/C: 61040532921
-IFSC: SBIN0031573  
-STATE BANK OF INDIA
-
-📲 *Payment QR Code:*  
-https://aacharyavishalvaishnav.pages.dev/upi-qr.png
-
-🌐 *Website:*  
-https://aacharyavishalvaishnav.pages.dev/
-
-👉 कृपया Payment Screenshot यहीं भेजें  
-👉 Client Code जरूर लिखें  
-👉 बिना *Payment Screenshot* भेजे आपका अनुरोध process नहीं किया जाएगा  
-
-रिपोर्ट 12 घंटे में भेज दी जाएगी  
-
-— आचार्य विशाल वैष्णव`;
-
-      // थोड़ी delay ताकि user loading देखे
-      setTimeout(()=>{
-        window.location.href = "https://wa.me/918404011650?text=" + encodeURIComponent(msg);
-      }, 1000);
-
-      document.getElementById("palmForm").reset();
-      document.getElementById("formSuccessMsg").style.display = "block";
-      loading.style.display = "none";
-
-    } else {
-      alert("डेटा सबमिट नहीं हुआ, कृपया पुनः प्रयास करें।");
-
-      btn.disabled = false;
-      btn.innerHTML = "अभी जानकारी भेजें & रिपोर्ट शुरू करें";
-      loading.style.display = "none";
-    }
+  .then(() => {
+    document.getElementById("palmForm").reset();
   })
-  .catch(() => {
-    alert("नेटवर्क समस्या, बाद में प्रयास करें।");
+  .catch(() => console.log("Saved silently"));
 
-    btn.disabled = false;
-    btn.innerHTML = "अभी जानकारी भेजें & रिपोर्ट शुरू करें";
-    loading.style.display = "none";
-  });
 }
 </script>
   
