@@ -576,34 +576,45 @@ function sendWhatsApp(){
   const form = document.getElementById("palmForm");
   const formData = new FormData(form);
 
-  // 🔥 STEP 1 — instant WhatsApp open
+  // ✅ GET VALUES (MOST IMPORTANT FIX)
+  const name = document.getElementById("client_name").value;
+  const phone = document.getElementById("phone").value;
+  const dob = document.getElementById("dob").value;
+  const tob = document.getElementById("tob").value;
+  const place = document.getElementById("place").value;
+  const plan = document.getElementById("plan").value;
+
+  // 🔥 MESSAGE
   let msg = `नमस्ते 🙏  
+
 मैंने आपकी वेबसाइट पर अपनी हथेली की रिपोर्ट के लिए आपके द्वारा पूछी गयी सारी जानकारी भेज दी है !
 
-*हस्तरेखा परामर्श विवरण*:
+📌 *हस्तरेखा परामर्श विवरण:*
 
-*नाम:* ${name}
-*मोबाइल:* ${phone}
-*जन्म तिथि:* ${dob}
-*जन्म समय:* ${tob}
-*जन्म स्थान:* ${place}
-*प्लान:* ${plan}
+👤 नाम: ${name}  
+📞 मोबाइल: ${phone}  
+📅 जन्म तिथि: ${dob}  
+⏰ जन्म समय: ${tob || "-"}  
+📍 जन्म स्थान: ${place || "-"}  
+🧾 प्लान: ${plan}  
 
 कृपया आगे की प्रक्रिया बताएं।`;
 
+  // 🔥 WhatsApp open
   window.open("https://wa.me/918404011650?text=" + encodeURIComponent(msg), "_blank");
 
-  // 🔥 STEP 2 — backend save (silent)
+  // 🔥 Backend save (silent)
   fetch("https://jyotish-backend-gbr9.onrender.com/api/website-submit", {
     method: "POST",
     body: formData
   })
   .then(() => {
-    document.getElementById("palmForm").reset();
+    form.reset();
   })
   .catch(() => console.log("Saved silently"));
 
 }
+  
 </script>
   
 <script>
