@@ -626,9 +626,6 @@ const reviewData = [
 { name:"Anjali Desai", city:"Surat", text:"report पढ़कर काफी confidence आया और negativity कम हुई। सच में बहुत helpful guidance था।" },
 { name:"Deepak Kumar", city:"Patna", text:"सही समय पर सही मार्गदर्शन मिला। जो समस्याएं चल रही थीं उनके बारे में clarity आई।" },
 { name:"Komal Jain", city:"Bhopal", text:"personal problems को लेकर बहुत परेशान थी। रिपोर्ट से मन को शांति मिली और solution भी मिला।" },
-
-// 🔥 NEW REVIEWS ADDED
-
 { name:"Sanjay Mishra", city:"Varanasi", text:"रिपोर्ट पढ़कर लगा जैसे मेरी पूरी life सामने रख दी हो। हर point बिल्कुल सही लगा और guidance बहुत काम का था।" },
 { name:"Ritika Kapoor", city:"Chandigarh", text:"career और relationship दोनों के बारे में जो बताया गया वो बिल्कुल accurate था। अब काफी clarity महसूस हो रही है।" },
 { name:"Manish Gupta", city:"Kanpur", text:"इतनी detailed report की उम्मीद नहीं थी। हर चीज step by step समझाई गई जिससे समझना आसान हो गया।" },
@@ -639,26 +636,20 @@ const reviewData = [
 
 // 📅 random realistic date
 function getRealDate(){
-
     const now = new Date();
     const past = new Date(now - Math.random()*7*24*60*60*1000);
-
     const day = past.getDate();
     const month = past.toLocaleString('default', { month: 'short' });
-
     return `${day} ${month}`;
 }
 
 // 🕒 human style time
 function getTimeLabel(){
-
     const r = Math.random();
-
     if(r < 0.3) return "आज";
     if(r < 0.6) return "कल";
     if(r < 0.85) return "2 दिन पहले";
-
-    return getRealDate(); // 🔥 fallback actual date
+    return getRealDate();
 }
 
 // 🔠 initials
@@ -671,16 +662,13 @@ function shuffle(arr){
     return arr.sort(()=>0.5 - Math.random());
 }
 
-// 🔥 render single review
+// 🔥 render
 function renderReview(r){
     return `
     <div class="review-box">
-
         <div class="review-header">
-
             <div class="review-left">
                 <div class="review-avatar">${getInitial(r.name)}</div>
-
                 <div>
                     <div class="review-name">
                         ${r.name}
@@ -689,53 +677,65 @@ function renderReview(r){
                     <div class="review-meta">${r.city} • ${getTimeLabel()}</div>
                 </div>
             </div>
-
             <div style="font-size:10px;color:#777;">Google</div>
-
         </div>
-
         <div class="review-stars">★★★★★</div>
-
         <div class="review-text">${r.text}</div>
-
     </div>
     `;
 }
 
 let currentReviews = [];
 
-// 🔥 initial load (6 reviews)
+// 🔥 initial load (NO DUPLICATE)
 function loadInitial(){
-
     let shuffled = shuffle([...reviewData]);
-    currentReviews = shuffled.slice(0,6);
+    currentReviews = [];
+
+    for(let r of shuffled){
+        if(!currentReviews.some(x => x.name === r.name)){
+            currentReviews.push(r);
+        }
+        if(currentReviews.length === 6) break;
+    }
 
     const container = document.getElementById("reviewContainer");
-
     container.innerHTML = currentReviews.map(r=>renderReview(r)).join("");
 }
 
-// 🔄 replace ONLY ONE review (real feel)
+// 🔄 replace ONE (NO DUPLICATE)
 function updateOneReview(){
 
     const container = document.getElementById("reviewContainer");
-
     const boxes = container.children;
 
     const randomIndex = Math.floor(Math.random()*boxes.length);
 
-    const newReview = reviewData[Math.floor(Math.random()*reviewData.length)];
+    let existingNames = currentReviews.map(r => r.name);
 
-    boxes[randomIndex].innerHTML = renderReview(newReview);
+    let available = reviewData.filter(r => !existingNames.includes(r.name));
+
+    // fallback reset
+    if(available.length === 0){
+        available = reviewData;
+    }
+
+    const newReview = available[Math.floor(Math.random()*available.length)];
+
+    // replace in state
+    currentReviews[randomIndex] = newReview;
+
+    // update DOM
+    boxes[randomIndex].outerHTML = renderReview(newReview);
 }
 
 // 🔥 START
 setTimeout(loadInitial, 2000);
 
-// 🔁 VERY SLOW + RANDOM UPDATE (REAL HUMAN BEHAVIOR)
+// 🔁 REALISTIC SLOW UPDATE
 setInterval(()=>{
     updateOneReview();
-}, 90000 + Math.random()*60000);  // 1.5 to 2.5 min
+}, 90000 + Math.random()*60000);
 
 </script>  
 
