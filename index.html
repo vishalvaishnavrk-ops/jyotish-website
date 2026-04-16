@@ -185,6 +185,13 @@ input[type="tel"]{
 textarea{
     text-transform: none;
 }  
+
+.form-guide{
+    font-size:13px;     /* 🔥 छोटा और clean */
+    color:#8b0000;      /* existing theme */
+    line-height:1.4;
+    margin-bottom:10px;
+}
   
 /* ===== REVIEW GRID ===== */
 #reviewContainer{
@@ -343,6 +350,13 @@ height:80px !important;
 @media (max-width:768px){
     #popup{
         bottom: 100px !important;
+    }
+}
+
+@media (max-width:768px){
+    .form-guide{
+        font-size:12px;
+        line-height:1.3;
     }
 }
   
@@ -547,9 +561,9 @@ html {
 
 <section class="container">
 <h2>📩 परामर्श फॉर्म</h2>
-<p style="color:#8b0000; font-weight:600;">
-⚠️ पहले जानकारी भरें → फिर निचे दिए बटन "अभी जानकारी भेजे और रिपोर्ट शुरू करे " पर क्लिक करे → प्रॉसेस होने के बाद व्हाट्सप्प खुलेगा तो ऑटो ड्राफ्टेड मेसेज WhatsApp पर भेजें → फिर भुगतान का स्क्रीनशॉट व्हाट्सअप पर भेजे !
-</p>  
+<p class="form-guide">
+PALM READING REPORT के लिए ONLY * MARK वाले FIELD भरना जरूरी है। बाकी यदि जन्म तिथि, जन्म समय और जन्म स्थान भरेंगे तो रिपोर्ट और ज्यादा स्पष्ट और सटीक होगी। सभी details भरकर नीचे दिए button पर click करें और अपनी जानकारी हमें WhatsApp भेजें।
+</p>
 <form id="palmForm" enctype="multipart/form-data">
 <label>पूरा नाम <span style="color:red">*</span></label>
 <input id="client_name" name="name" placeholder="पूरा नाम" required>
