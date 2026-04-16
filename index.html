@@ -95,7 +95,7 @@ form input,form select,form textarea{width:100%;padding:10px;margin:6px 0;border
 .review-name{font-weight:600;color:#1b5e20}
 
 /* FOOTER */
-footer{background:#4a0c0c;color:#fff;text-align:center;padding:15px;font-size:14px}
+footer{background:#4a0c0c;color:#fff;text-align:center;padding:15px;font-size:14px;margin-top: 40px}
 .whatsapp{position:fixed;bottom:20px;right:20px;background:#25D366;color:#fff;font-size:24px;padding:15px;border-radius:50%;text-decoration:none}
 
 /* MOBILE FIX ONLY */
@@ -127,7 +127,7 @@ padding:0 15px;
 
 /* ===== SECTION ===== */
 section{
-padding:40px 20px;
+padding:35px 20px;
 }
 
 /* ===== BUTTON ===== */
@@ -181,6 +181,7 @@ padding:10px 12px;
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:15px;
+margin-bottom: 40px;  
 }
 
 @media(max-width:768px){
@@ -279,8 +280,25 @@ transform:translateY(0);
 flex-direction:column;
 align-items:center;
 text-align:center;
+padding:12px 15px;  
 }
 
+.header{
+    padding-bottom:10px;
+}  
+
+.header-text{
+    margin-bottom:5px;
+}
+  
+.header-text h1{
+    font-size:20px;
+}
+
+.header-text p{
+    font-size:14px;
+}  
+  
 /* 🔥 FIXED BUTTON ALIGNMENT */
 .header-btn{
 display:block;
@@ -288,17 +306,24 @@ margin:15px auto 0 auto;   /* center align */
 width:auto !important;
 max-width:260px;
 padding:12px 18px;
+margin-top:8px !important;  
+}
+  
+.header-left img{
+height:65px !important;
 }
 
-.header-left img{
-height:85px !important;
+.whatsapp{
+    position:fixed;
+    bottom:80px;   /* 🔥 ऊपर उठाओ */
+    right:15px;
 }
   
 }  
 
 #popup{
 position:fixed;
-bottom:20px;
+bottom:80px;
 left:20px;
 background:linear-gradient(135deg,#fff,#fff7f2);
 border:1px solid #f3d5c8;
@@ -368,6 +393,32 @@ box-shadow:0 4px 15px rgba(196,0,0,0.15);
 flex-direction:column;
 align-items:flex-start;
 }
+}
+
+.offer-bar{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size:14px;
+}
+
+@media (max-width:768px){
+
+    /* 🔥 LONG TEXT HIDE */
+    .mantra:first-of-type{
+        display:none;
+    }
+
+    /* 🔥 KEEP ONLY JAI SHREE RADHE */
+    .mantra:last-of-type{
+        display:block;
+        margin-top:5px;
+    }
+
+}  
+
+html {
+  scroll-behavior: smooth;
 }
   
 </style>
