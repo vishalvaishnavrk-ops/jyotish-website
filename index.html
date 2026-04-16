@@ -679,23 +679,9 @@ function sendWhatsApp(){
   const tob = document.getElementById("tob").value;
   const place = document.getElementById("place").value;
   const plan = document.getElementById("plan").value;
-  
-  // 🔥 STEP 1 — ONLY IMAGE VALIDATION
-  fetch("https://jyotish-backend-gbr9.onrender.com/api/validate-images", {
-    method: "POST",
-    body: formData
-  })
-  .then(res => res.json())
-  .then(data => {
 
-    // ❌ IMAGE FAIL
-    if(!data.success){
-        alert(data.error || "कृपया सही और स्पष्ट हथेली की फोटो अपलोड करें।");
-        return;
-    }
-
-    // 🔥 STEP 2 — WHATSAPP INSTANT OPEN
-    let msg = `नमस्ते 🙏  
+  // 🔥 MESSAGE
+  let msg = `नमस्ते 🙏  
 
 मैंने आपकी वेबसाइट पर अपनी हथेली की रिपोर्ट के लिए आपके द्वारा पूछी गयी सारी जानकारी भेज दी है !
 
@@ -709,24 +695,19 @@ function sendWhatsApp(){
 🧾 प्लान: ${plan}  
 
 कृपया आगे की प्रक्रिया बताएं।`;
-    
-    window.open(
-      "https://wa.me/918404011650?text=" + encodeURIComponent(msg),
-      "_blank"
-    );
 
-    // 🔥 STEP 3 — BACKEND SAVE (ASYNC)
-    fetch("https://jyotish-backend-gbr9.onrender.com/api/website-submit", {
-      method: "POST",
-      body: formData
-    }).catch(() => console.log("Saved silently"));
+  // 🔥 WhatsApp open
+  window.open("https://wa.me/918404011650?text=" + encodeURIComponent(msg), "_blank");
 
-    form.reset();
-
+  // 🔥 Backend save (silent)
+  fetch("https://jyotish-backend-gbr9.onrender.com/api/website-submit", {
+    method: "POST",
+    body: formData
   })
-  .catch(() => {
-    alert("Server error, कृपया दोबारा प्रयास करें।");
-  });
+  .then(() => {
+    form.reset();
+  })
+  .catch(() => console.log("Saved silently"));
 
 }
   
