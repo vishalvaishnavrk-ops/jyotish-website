@@ -712,6 +712,13 @@ function sendWhatsApp(){
     "_blank"
   );
 
+// 🔥 FIX: hide processing message
+msgBox.style.display = "none";
+
+ // 🔥 FIX: reset button
+btn.disabled = false;
+btn.innerText = "अभी जानकारी भेजें & रिपोर्ट शुरू करें"; 
+  
   // 🔥 Backend (FIXED URL)
   fetch("https://jyotish-backend-gbr9.onrender.com/api/website-submit", {
     method: "POST",
