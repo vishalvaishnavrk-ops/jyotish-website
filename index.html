@@ -600,9 +600,12 @@ html {
 </label>
 <input type="file" name="images" multiple required>
 <small style="color:#8b0000">* हथेली की 4 फोटो अनिवार्य हैं</small>
-<button class="btn" type="button" id="submitBtn" onclick="sendWhatsApp()">
+<button type="button" class="btn" onclick="sendWhatsApp()" id="submitBtn">
 अभी जानकारी भेजें & रिपोर्ट शुरू करें
 </button>
+<p id="submitMsg" style="display:none; color:#8b0000; font-size:13px; margin-top:8px;">
+    आपकी जानकारी प्रोसेस हो रही है... कृपया प्रतीक्षा करें 🙏
+</p>  
 <p style="font-size:12px;color:#777;">
 **By submitting this form, you agree to our Privacy Policy and Terms.
 </p>  
@@ -672,42 +675,62 @@ function sendWhatsApp(){
   const form = document.getElementById("palmForm");
   const formData = new FormData(form);
 
-  // ✅ GET VALUES (MOST IMPORTANT FIX)
-  const name = document.getElementById("client_name").value;
-  const phone = document.getElementById("phone").value;
-  const dob = document.getElementById("dob").value;
-  const tob = document.getElementById("tob").value;
-  const place = document.getElementById("place").value;
-  const plan = document.getElementById("plan").value;
+  const btn = document.getElementById("submitBtn");
+  const msgBox = document.getElementById("submitMsg");
 
-  // 🔥 MESSAGE
+  // 🔥 DOUBLE CLICK BLOCK
+  if(btn.disabled) return;
+
+  // 🔥 DISABLE BUTTON
+  btn.disabled = true;
+  btn.innerText = "Processing...";
+
+  // 🔥 SHOW MESSAGE
+  msgBox.style.display = "block";
+
+  // 🔥 GET VALUES
+  const name = document.getElementById("client_name").value || "-";
+  const phone = document.getElementById("phone").value || "-";
+  const dob = document.getElementById("dob").value || "-";
+  const tob = document.getElementById("tob").value || "-";
+  const place = document.getElementById("place").value || "-";
+  const plan = document.getElementById("plan").value || "-";
+
+  // 🔥 WHATSAPP MESSAGE
   let msg = `नमस्ते 🙏  
 
-मैंने आपकी वेबसाइट पर अपनी हथेली की रिपोर्ट के लिए आपके द्वारा पूछी गयी सारी जानकारी भेज दी है !
+मैंने आपकी वेबसाइट पर अपनी हथेली की रिपोर्ट के लिए जानकारी भेज दी है।
 
 📌 *हस्तरेखा परामर्श विवरण:*
 
 👤 नाम: ${name}  
 📞 मोबाइल: ${phone}  
 📅 जन्म तिथि: ${dob}  
-⏰ जन्म समय: ${tob || "-"}  
-📍 जन्म स्थान: ${place || "-"}  
+⏰ जन्म समय: ${tob}  
+📍 जन्म स्थान: ${place}  
 🧾 प्लान: ${plan}  
 
 कृपया आगे की प्रक्रिया बताएं।`;
 
-  // 🔥 WhatsApp open
-  window.open("https://wa.me/918404011650?text=" + encodeURIComponent(msg), "_blank");
+  // 🔥 OPEN WHATSAPP (DELAY SAFE)
+  setTimeout(() => {
+    window.open(
+      "https://wa.me/918404011650?text=" + encodeURIComponent(msg),
+      "_blank"
+    );
+  }, 500);
 
-  // 🔥 Backend save (silent)
-  fetch("https://jyotish-backend-gbr9.onrender.com/api/website-submit", {
+  // 🔥 BACKEND SAVE (ASYNC)
+  fetch("/api/website-submit", {
     method: "POST",
     body: formData
-  })
-  .then(() => {
-    form.reset();
-  })
-  .catch(() => console.log("Saved silently"));
+  }).catch(() => console.log("Backend failed"));
+
+  // 🔥 RESET AFTER 5 SEC (optional safety)
+  setTimeout(() => {
+    btn.disabled = false;
+    btn.innerText = "अभी अपनी रिपोर्ट बनवाएँ";
+  }, 5000);
 
 }
   
