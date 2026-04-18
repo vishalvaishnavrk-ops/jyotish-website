@@ -127,7 +127,8 @@ padding:0 15px;
 
 /* ===== SECTION ===== */
 section{
-padding:35px 20px;
+padding:50px 20px;
+margin-bottom:10px;  
 }
 
 /* ===== BUTTON ===== */
@@ -150,8 +151,15 @@ width:auto;
 }
 
 /* ===== FORM ===== */
+/* 🔥 FORM WRAPPER (NEW) */
+.form-wrapper{
+    max-width:700px;
+    margin:0 auto;
+}
+  
 form{
-max-width:650px;
+width:100%;  
+max-width:100%;
 margin:0 auto;
 background:#fff;
 padding:20px;
@@ -202,7 +210,7 @@ textarea{
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:15px;
-margin-bottom: 40px;  
+margin-bottom: 60px;  
 }
 
 @media(max-width:768px){
@@ -483,7 +491,7 @@ html {
       <div class="mantra">!! जय श्री राधे !!</div>
     </div>
   </div>
-  <a class="header-btn" href="https://wa.me/918404011650">WhatsApp पर बात करें</a>
+  <a class="header-btn" href="#formSection" class="btn">अभी ₹51 में रिपोर्ट बनवाये</a>
 </div>
 </header>
 
@@ -503,7 +511,7 @@ html {
 </p>
 
 <div style="text-align:center;">
-<a href="#palmForm" class="btn" style="margin-top:15px; display:inline-block;">
+<a href="#formSection" class="btn" style="margin-top:15px; display:inline-block;">
 अभी अपनी रिपोर्ट बनवाएँ
 </a>
 </div>  
@@ -521,59 +529,63 @@ html {
 </section>
 
 <section class="container">
+
 <h2>💎 परामर्श योजनाएँ (पूरी जानकारी)</h2>
 
-<div class="plan">
-<h3>₹51 – बेसिक प्लान</h3>
+<details>
+<summary>₹51 – बेसिक प्लान</summary>
 <ul>
 <li>स्वभाव एवं जीवन की सामान्य जानकारी</li>
 <li>हस्तरेखा का प्रारंभिक विश्लेषण</li>
-<li>1 प्रश्न का उत्तर एवं आगामी १ वर्ष का संक्षिप्त पूर्वानुमान</li>
-<li>सरल एवं सात्विक उपाय</li>
+<li>1 प्रश्न का उत्तर</li>
 </ul>
-</div>
+</details>
 
-<div class="plan">
-<h3>₹151 – एडवांस प्लान</h3>
+<details>
+<summary>₹151 – एडवांस प्लान</summary>
 <ul>
 <li>विस्तृत हस्तरेखा अध्ययन</li>
-<li>करियर / जीवन / संबंध फोकस</li>
-<li>2 प्रश्नों के स्पष्ट उत्तर एवं २ वर्ष का स्पष्ट पूर्वानुमान</li>
-<li>बिना खर्च का वैदिक उपाय</li>
+<li>करियर, धन और रिश्तों का विश्लेषण</li>
+<li>2 प्रश्नों के उत्तर</li>
 </ul>
+</details>
+
+<details>
+<summary>₹251 – प्रो प्लान</summary>
+<ul>
+<li>गहराई से हस्तरेखा विश्लेषण</li>
+<li>जीवन के महत्वपूर्ण निर्णयों का मार्गदर्शन</li>
+<li>3 वर्ष का पूर्वानुमान</li>
+<li>3 प्रश्नों के उत्तर</li>
+</ul>
+</details>
+
+<details>
+<summary>₹501 – अल्टीमेट प्लान</summary>
+<ul>
+<li>पूर्ण हस्तरेखा + ज्योतिष विश्लेषण</li>
+<li>जीवन का विस्तृत मार्गदर्शन</li>
+<li>5 वर्ष का भविष्य पूर्वानुमान</li>
+<li>विशेष उपाय और समाधान</li>
+</ul>
+</details>
+
+<div style="text-align:center; margin-top:20px;">
+<a href="#formSection" class="btn">
+🚀 अभी ₹51 में रिपोर्ट शुरू करें
+</a>
 </div>
 
-<div class="plan">
-<h3>₹251 – प्रो प्लान</h3>
-<ul>
-<li>गहन और डिटेल्ड हस्तरेखा विश्लेषण</li>
-<li>मुख्य समस्याओं की पहचान</li>
-<li>3 प्रश्नों के सटीक उत्तर एवं आगामी ३ साल का विस्तृत पूर्वानुमान</li>
-<li>विशेष उपाय</li>
-</ul>
-</div>
-
-<div class="plan">
-<h3>₹501 – अल्टीमेट प्लान</h3>
-<ul>
-<li>पूर्ण हस्त रेखा विश्लेषण + कुंडली विश्लेषण</li>
-<li>ग्रह दोष व उनके प्रभाव तथा वैदिक एवं सिद्ध उपाय जिनसे गृह दोष के दुष्प्रभाव समाप्त और ग्रहो का शुभत्व भी मिलेगा </li>
-<li>3–5 प्रश्नों के गहन उत्तर एवं आगामी 5 वर्ष तक का अत्यंत विस्तृत और गहराई वाला पूर्वानुमान</li>
-<li>व्यक्तिगत एवं शक्तिशाली उपाय</li>
-</ul>
-</div>
 </section>
 
-<section class="container">
+<section class="container" id="formSection">
 <h2>📩 परामर्श फॉर्म</h2>
 <p class="form-guide">
-<b>PALM READING REPORT</b> के लिए <b>ONLY * MARK वाले FIELD</b> भरना जरूरी है।<br><br>
-
-यदि <b>जन्म तिथि, जन्म समय और जन्म स्थान</b> भरेंगे तो रिपोर्ट और ज्यादा स्पष्ट और सटीक होगी।<br><br>
-
-<b>सभी details भरकर नीचे दिए button पर click करें</b> और अपनी जानकारी हमें <b>WhatsApp</b> भेजें।
+<b>ONLY * MARK वाले FIELD</b> भरना जरूरी है। यदि <b>जन्म तिथि, जन्म समय और जन्म स्थान</b> भरेंगे तो रिपोर्ट और ज्यादा स्पष्ट और सटीक होगी।<br><br>
+<b>सभी details भरकर</b> अपनी जानकारी हमें <b>WhatsApp</b> भेजें।
 </p>
-  
+
+<div class="form-wrapper">  
 <form id="palmForm" enctype="multipart/form-data">
 <label>पूरा नाम <span style="color:red">*</span></label>
 <input id="client_name" name="name" placeholder="पूरा नाम" required>
@@ -596,9 +608,20 @@ html {
 <label>मुख्य प्रश्न <span style="color:red">*</span></label>
 <textarea id="question" name="questions" placeholder="अपने प्रश्न लिखें" required></textarea>
 <label style="display:block; margin-top:10px;">
-हथेली की 4 फोटो अपलोड करें
+📸 हथेली की 4 फोटो अपलोड करें *
 </label>
-<input type="file" name="images" multiple required>
+<label>1️⃣ दायाँ हाथ (Front)</label>
+<input type="file" name="images" accept="image/*" capture="environment" required>
+
+<label>2️⃣ बायाँ हाथ (Front)</label>
+<input type="file" name="images" accept="image/*" capture="environment" required>
+
+<label>3️⃣ दायाँ हाथ (Back)</label>
+<input type="file" name="images" accept="image/*" capture="environment" required>
+
+<label>4️⃣ बायाँ हाथ (Back)</label>
+<input type="file" name="images" accept="image/*" capture="environment" required>
+  
 <small style="color:#8b0000">* हथेली की 4 फोटो अनिवार्य हैं</small>
 <button type="button" class="btn" onclick="sendWhatsApp()" id="submitBtn">
 अभी जानकारी भेजें & रिपोर्ट शुरू करें
@@ -638,6 +661,7 @@ html {
 </div>
 </div>
 </form>
+</div>  
 </section>
 
 <section class="container">
