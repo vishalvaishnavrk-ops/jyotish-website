@@ -787,66 +787,98 @@ This service is based on astrology & Palm Reading Practice and is intended for g
 <a class="whatsapp" href="https://wa.me/918404011650">💬</a>
 
 <script>
+function generateRequestId(){
+  return 'req_' + Date.now() + '_' + Math.random().toString(36).substring(2,10);
+}
+</script>
+  
+<script>
 function sendWhatsApp(){
 
   const form = document.getElementById("palmForm");
   const formData = new FormData(form);
 
-  const btn = document.getElementById("submitBtn");
-  const msgBox = document.getElementById("submitMsg");
+  const name = document.getElementById("client_name").value;
+  const phone = document.getElementById("phone").value;
+  const dob = document.getElementById("dob").value;
+  const tob = document.getElementById("tob").value;
+  const place = document.getElementById("place").value;
+  const plan = document.getElementById("plan").value;
 
-  if(btn.disabled) return;
+  const statusMsg = document.getElementById("statusMsg");
 
-  btn.disabled = true;
-  btn.innerText = "Processing...";
-  msgBox.style.display = "block";
+  // 🔥 STEP 1 — IMAGE STRICT CHECK
+  const files = formData.getAll("images");
 
-  const name = document.getElementById("client_name").value || "-";
-  const phone = document.getElementById("phone").value || "-";
-  const dob = document.getElementById("dob").value || "-";
-  const tob = document.getElementById("tob").value || "-";
-  const place = document.getElementById("place").value || "-";
-  const plan = document.getElementById("plan").value || "-";
+  if(files.length !== 4){
+    alert("कृपया सभी 4 स्पष्ट हथेली की फोटो अपलोड करें");
+    return;
+  }
 
-  let msg = `नमस्ते 🙏  
+  // 🔥 STEP 2 — ADD UNIQUE REQUEST ID
+  const requestId = generateRequestId();
+  formData.append("client_request_id", requestId);
 
-मैंने आपकी वेबसाइट पर अपनी हथेली की रिपोर्ट के लिए जानकारी भेज दी है।
+  // 🔥 STEP 3 — UI LOCK
+  statusMsg.innerText = "⏳ कृपया प्रतीक्षा करें...";
+  statusMsg.style.display = "block";
+
+  // 🔥 STEP 4 — WHATSAPP INSTANT
+  let msg = `जय श्री राधे 🙏  
+
+मैंने आपकी वेबसाइट पर अपनी हथेली की रिपोर्ट के लिए आपके द्वारा पूछी गयी सारी जानकारी भेज दी है
 
 📌 *हस्तरेखा परामर्श विवरण:*
 
 👤 नाम: ${name}  
 📞 मोबाइल: ${phone}  
 📅 जन्म तिथि: ${dob}  
-⏰ जन्म समय: ${tob}  
-📍 जन्म स्थान: ${place}  
-🧾 प्लान: ${plan}  
+⏰ समय: ${tob || "-"}  
+📍 स्थान: ${place || "-"}  
+🧾 प्लान: ${plan}
 
 कृपया आगे की प्रक्रिया बताएं।`;
 
-  // 🔥 WhatsApp
   window.open(
     "https://wa.me/918404011650?text=" + encodeURIComponent(msg),
     "_blank"
   );
 
-// 🔥 FIX: hide processing message
-msgBox.style.display = "none";
+  // 🔥 STEP 5 — BACKEND SAVE WITH RETRY
+  saveLeadWithRetry(formData, 0);
 
- // 🔥 FIX: reset button
-btn.disabled = false;
-btn.innerText = "अभी जानकारी भेजें & रिपोर्ट शुरू करें"; 
-  
-  // 🔥 Backend (FIXED URL)
+  form.reset();
+
+  setTimeout(()=>{
+    statusMsg.style.display = "none";
+  },3000);
+}
+
+
+// 🔥 RETRY FUNCTION (IMPORTANT)
+function saveLeadWithRetry(formData, attempt){
+
   fetch("https://jyotish-backend-gbr9.onrender.com/api/website-submit", {
     method: "POST",
     body: formData
-  }).catch(() => console.log("Backend failed"));
+  })
+  .then(res => res.json())
+  .then(data => {
 
-  // 🔥 Reset form
-  form.reset();
+    if(!data.success && attempt < 3){
+      setTimeout(() => saveLeadWithRetry(formData, attempt+1), 2000);
+    }
+
+  })
+  .catch(() => {
+
+    if(attempt < 3){
+      setTimeout(() => saveLeadWithRetry(formData, attempt+1), 2000);
+    }
+
+  });
 
 }
-
 </script>  
   
 <script>
