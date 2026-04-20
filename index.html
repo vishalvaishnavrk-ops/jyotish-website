@@ -704,16 +704,16 @@ section.plan-section{
 📸 हथेली की 4 फोटो अपलोड करें *
 </label>
 <label>1️⃣ दायाँ हाथ (Right Hand Front)</label>
-<input type="file" name="images" accept="image/*" required>
-  
+<input type="file" name="image1" accept="image/*" required>
+
 <label>2️⃣ बायाँ हाथ (Left Hand Front)</label>
-<input type="file" name="images" accept="image/*" required>
-  
+<input type="file" name="image2" accept="image/*" required>
+
 <label>3️⃣ दायाँ हाथ (Right Hand Back)</label>
-<input type="file" name="images" accept="image/*" required>
-  
+<input type="file" name="image3" accept="image/*" required>
+
 <label>4️⃣ बायाँ हाथ (Left Hand Back)</label>
-<input type="file" name="images" accept="image/*" required>
+<input type="file" name="image4" accept="image/*" required>
   
 <small style="color:#8b0000">* हथेली की 4 फोटो अनिवार्य हैं</small>
 <button type="button" class="btn" onclick="sendWhatsApp()" id="submitBtn">
@@ -790,9 +790,7 @@ This service is based on astrology & Palm Reading Practice and is intended for g
 function generateRequestId(){
   return 'req_' + Date.now() + '_' + Math.random().toString(36).substring(2,10);
 }
-</script>
-  
-<script>
+
 function sendWhatsApp(){
 
   const form = document.getElementById("palmForm");
@@ -807,15 +805,18 @@ function sendWhatsApp(){
 
   const statusMsg = document.getElementById("statusMsg");
 
-  // 🔥 STEP 1 — IMAGE STRICT CHECK
-  const files = formData.getAll("images");
+  // 🔥 STEP 1 — IMAGE STRICT CHECK (FIXED)
+  const img1 = form.querySelector('[name="image1"]').files[0];
+  const img2 = form.querySelector('[name="image2"]').files[0];
+  const img3 = form.querySelector('[name="image3"]').files[0];
+  const img4 = form.querySelector('[name="image4"]').files[0];
 
-  if(files.length !== 4){
+  if(!img1 || !img2 || !img3 || !img4){
     alert("कृपया सभी 4 स्पष्ट हथेली की फोटो अपलोड करें");
     return;
   }
 
-  // 🔥 STEP 2 — ADD UNIQUE REQUEST ID
+  // 🔥 STEP 2 — UNIQUE REQUEST ID
   const requestId = generateRequestId();
   formData.append("client_request_id", requestId);
 
@@ -844,8 +845,8 @@ function sendWhatsApp(){
     "_blank"
   );
 
-  // 🔥 STEP 5 — BACKEND SAVE WITH RETRY
-  saveLeadWithRetry(formData, 0);
+  // 🔥 STEP 5 — BACKEND SAVE (SAFE RETRY)
+  saveLeadWithRetry(form, requestId, 0);
 
   form.reset();
 
@@ -855,8 +856,11 @@ function sendWhatsApp(){
 }
 
 
-// 🔥 RETRY FUNCTION (IMPORTANT)
-function saveLeadWithRetry(formData, attempt){
+// 🔥 SAFE RETRY (FormData re-create every time)
+function saveLeadWithRetry(form, requestId, attempt){
+
+  const formData = new FormData(form);
+  formData.append("client_request_id", requestId);
 
   fetch("https://jyotish-backend-gbr9.onrender.com/api/website-submit", {
     method: "POST",
@@ -866,14 +870,14 @@ function saveLeadWithRetry(formData, attempt){
   .then(data => {
 
     if(!data.success && attempt < 3){
-      setTimeout(() => saveLeadWithRetry(formData, attempt+1), 2000);
+      setTimeout(() => saveLeadWithRetry(form, requestId, attempt+1), 2000);
     }
 
   })
   .catch(() => {
 
     if(attempt < 3){
-      setTimeout(() => saveLeadWithRetry(formData, attempt+1), 2000);
+      setTimeout(() => saveLeadWithRetry(form, requestId, attempt+1), 2000);
     }
 
   });
