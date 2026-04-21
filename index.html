@@ -787,10 +787,6 @@ This service is based on astrology & Palm Reading Practice and is intended for g
 <a class="whatsapp" href="https://wa.me/918404011650">💬</a>
 
 <script>
-function generateRequestId(){
-  return 'req_' + Date.now() + '_' + Math.random().toString(36).substring(2,10);
-}
-
 function sendWhatsApp(){
 
   const form = document.getElementById("palmForm");
@@ -803,38 +799,30 @@ function sendWhatsApp(){
   const place = document.getElementById("place").value;
   const plan = document.getElementById("plan").value;
 
-  const submitBtn = document.getElementById("submitBtn");
-  const statusMsg = document.getElementById("submitMsg");
-  
-  // 🔥 STEP 1 — IMAGE STRICT CHECK (FIXED)
-  const img1 = form.querySelector('[name="images"]').files[0];
-  const img2 = form.querySelector('[name="images"]').files[0];
-  const img3 = form.querySelector('[name="images"]').files[0];
-  const img4 = form.querySelector('[name="images"]').files[0];
+  const statusMsg = document.getElementById("statusMsg");
 
-  const files = formData.getAll("images");
+  // ✅ STRICT IMAGE CHECK (FINAL)
+  const files = document.querySelectorAll('input[name="images"]');
 
-  if(files.length !== 4){
+  let filled = 0;
+  files.forEach(f => {
+    if(f.files.length > 0) filled++;
+  });
+
+  if(filled !== 4){
     alert("कृपया सभी 4 स्पष्ट हथेली की फोटो अपलोड करें");
     return;
   }
 
-  // 🔥 STEP 2 — UNIQUE REQUEST ID
-  const requestId = generateRequestId();
-  formData.append("client_request_id", requestId);
-
-  // 🔥 STEP 3 — UI LOCK
-  submitBtn.disabled = true;
-  submitBtn.innerText = "प्रोसेस हो रहा है...";
-  statusMsg.innerText = "⏳ WhatsApp खुल रहा है… कृपया प्रतीक्षा करें";
+  statusMsg.innerText = "⏳ प्रोसेस हो रहा है...";
   statusMsg.style.display = "block";
-  
-  // 🔥 STEP 4 — WHATSAPP INSTANT
+
+  // ✅ WHATSAPP INSTANT (NO WAIT)
   let msg = `जय श्री राधे 🙏  
 
-मैंने आपकी वेबसाइट पर अपनी हथेली की रिपोर्ट के लिए आपके द्वारा पूछी गयी सारी जानकारी भेज दी है
+मैंने आपकी वेबसाइट पर अपनी हथेली की रिपोर्ट के लिए जानकारी भेज दी है।
 
-📌 *हस्तरेखा परामर्श विवरण:*
+📌 हस्तरेखा परामर्श विवरण:
 
 👤 नाम: ${name}  
 📞 मोबाइल: ${phone}  
@@ -850,78 +838,21 @@ function sendWhatsApp(){
     "_blank"
   );
 
-  // 🔥 STEP 5 — BACKEND SAVE (SAFE RETRY)
-  saveLeadWithRetry(form, requestId, 0);
-
-  setTimeout(()=>{
-    statusMsg.style.display = "none";
-  },3000);
-}
-
-
-// 🔥 SAFE RETRY (FormData re-create every time)
-function saveLeadWithRetry(form, requestId, attempt){
-
-  const formData = new FormData(form);
-  formData.append("client_request_id", requestId);
-
+  // ✅ BACKEND CALL (NON BLOCKING)
   fetch("https://jyotish-backend-gbr9.onrender.com/api/website-submit", {
     method: "POST",
     body: formData
-  })
-  .then(res => res.json())
-  .then(data => {
-
-    if(data.success){
-      // ✅ SUCCESS → अब reset करो
-      form.reset();
-
-      const submitBtn = document.getElementById("submitBtn");
-      const statusMsg = document.getElementById("submitMsg");
-
-      submitBtn.disabled = false;
-      submitBtn.innerText = "अभी जानकारी भेजें & रिपोर्ट शुरू करें";
-
-      statusMsg.innerText = "✅ आपकी जानकारी सफलतापूर्वक भेज दी गई है";
-      
-      // 3 सेकंड बाद message hide
-      setTimeout(()=>{
-        statusMsg.style.display = "none";
-      },3000);
-
-      return;
-    }
-
-    // 🔁 retry
-    if(attempt < 3){
-      setTimeout(() => saveLeadWithRetry(form, requestId, attempt+1), 2000);
-    } else {
-      failUI();
-    }
-
-  })
-  .catch(() => {
-    if(attempt < 3){
-      setTimeout(() => saveLeadWithRetry(form, requestId, attempt+1), 2000);
-    } else {
-      failUI();
-    }
   });
 
+  // ✅ INSTANT RESET (NO WAIT)
+  form.reset();
+
+  statusMsg.innerText = "✅ जानकारी भेज दी गई है";
+  setTimeout(()=>{
+    statusMsg.style.display = "none";
+  },2000);
 }
-
-
-// ❌ FAIL CASE UI
-function failUI(){
-  const submitBtn = document.getElementById("submitBtn");
-  const statusMsg = document.getElementById("submitMsg");
-
-  submitBtn.disabled = false;
-  submitBtn.innerText = "फिर से प्रयास करें";
-
-  statusMsg.innerText = "⚠️ नेटवर्क समस्या, कृपया दोबारा प्रयास करें";
-}
-</script>  
+</script>
   
 <script>
 
