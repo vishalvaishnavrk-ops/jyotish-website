@@ -792,37 +792,54 @@ function sendWhatsApp(){
   const form = document.getElementById("palmForm");
   const formData = new FormData(form);
 
-  const btn = document.getElementById("submitBtn");
-  const msgBox = document.getElementById("submitMsg");
-
-  if(btn.disabled) return;
-
-  // 🔥 IMAGE CHECK
-  const files = formData.getAll("images").filter(f => f.size > 0);
+  // 🔥 1. IMAGE STRICT CHECK
+  const files = formData.getAll("images").filter(f => f && f.size > 0);
 
   if(files.length !== 4){
-    alert("❌ 4 फोटो जरूरी हैं");
+    alert("❌ कृपया सभी 4 स्पष्ट हथेली की फोटो अपलोड करें");
     return;
   }
 
-  btn.disabled = true;
-  msgBox.style.display = "block";
+  // 🔥 2. USER DATA
+  const name = document.getElementById("client_name").value || "-";
+  const phone = document.getElementById("phone").value || "-";
+  const dob = document.getElementById("dob").value || "-";
+  const tob = document.getElementById("tob").value || "-";
+  const place = document.getElementById("place").value || "-";
+  const plan = document.getElementById("plan").value || "-";
 
-  // 🔥 WHATSAPP INSTANT
-  window.open("https://wa.me/918404011650", "_blank");
+  // 🔥 3. WHATSAPP MESSAGE
+  let msg = `नमस्ते 🙏  
 
-  // 🔥 BACKEND (NO WAIT)
-  saveLeadWithRetry(formData, 0);
+मैंने आपकी वेबसाइट पर अपनी हथेली की रिपोर्ट के लिए जानकारी भेज दी है।
 
-  // 🔥 RESET INSTANT
+📌 *हस्तरेखा परामर्श विवरण:*
+
+👤 नाम: ${name}
+📞 मोबाइल: ${phone}
+📅 जन्म तिथि: ${dob}
+⏰ समय: ${tob}
+📍 स्थान: ${place}
+🧾 प्लान: ${plan}
+
+कृपया आगे की प्रक्रिया बताएं।`;
+
+  const waUrl = "https://wa.me/918404011650?text=" + encodeURIComponent(msg);
+
+  // 🔥 4. WHATSAPP INSTANT OPEN
+  window.open(waUrl, "_blank");
+
+  // 🔥 5. BACKEND SAVE (DELAYED - SAFE)
+  setTimeout(() => {
+    saveLeadWithRetry(formData, 0);
+  }, 300);
+
+  // 🔥 6. FORM RESET
   form.reset();
-
-  btn.disabled = false;
-  msgBox.style.display = "none";
 }
 
 
-// 🔥 RETRY SYSTEM
+// 🔥 STRONG RETRY SYSTEM (KEEP THIS)
 function saveLeadWithRetry(formData, attempt){
 
   fetch("https://jyotish-backend-gbr9.onrender.com/api/website-submit", {
@@ -831,14 +848,18 @@ function saveLeadWithRetry(formData, attempt){
   })
   .then(res => res.json())
   .then(data => {
+
     if(!data.success && attempt < 5){
       setTimeout(() => saveLeadWithRetry(formData, attempt+1), 3000);
     }
+
   })
   .catch(() => {
+
     if(attempt < 5){
       setTimeout(() => saveLeadWithRetry(formData, attempt+1), 3000);
     }
+
   });
 }
 
