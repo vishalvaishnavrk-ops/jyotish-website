@@ -797,54 +797,49 @@ function sendWhatsApp(){
 
   if(btn.disabled) return;
 
+  // 🔥 IMAGE CHECK
+  const files = formData.getAll("images").filter(f => f.size > 0);
+
+  if(files.length !== 4){
+    alert("❌ 4 फोटो जरूरी हैं");
+    return;
+  }
+
   btn.disabled = true;
-  btn.innerText = "Processing...";
   msgBox.style.display = "block";
 
-  const name = document.getElementById("client_name").value || "-";
-  const phone = document.getElementById("phone").value || "-";
-  const dob = document.getElementById("dob").value || "-";
-  const tob = document.getElementById("tob").value || "-";
-  const place = document.getElementById("place").value || "-";
-  const plan = document.getElementById("plan").value || "-";
+  // 🔥 WHATSAPP INSTANT
+  window.open("https://wa.me/918404011650", "_blank");
 
-  let msg = `नमस्ते 🙏  
+  // 🔥 BACKEND (NO WAIT)
+  saveLeadWithRetry(formData, 0);
 
-मैंने आपकी वेबसाइट पर अपनी हथेली की रिपोर्ट के लिए जानकारी भेज दी है।
+  // 🔥 RESET INSTANT
+  form.reset();
 
-📌 *हस्तरेखा परामर्श विवरण:*
+  btn.disabled = false;
+  msgBox.style.display = "none";
+}
 
-👤 नाम: ${name}  
-📞 मोबाइल: ${phone}  
-📅 जन्म तिथि: ${dob}  
-⏰ जन्म समय: ${tob}  
-📍 जन्म स्थान: ${place}  
-🧾 प्लान: ${plan}  
 
-कृपया आगे की प्रक्रिया बताएं।`;
+// 🔥 RETRY SYSTEM
+function saveLeadWithRetry(formData, attempt){
 
-  // 🔥 WhatsApp
-  window.open(
-    "https://wa.me/918404011650?text=" + encodeURIComponent(msg),
-    "_blank"
-  );
-
-// 🔥 FIX: hide processing message
-msgBox.style.display = "none";
-
- // 🔥 FIX: reset button
-btn.disabled = false;
-btn.innerText = "अभी जानकारी भेजें & रिपोर्ट शुरू करें"; 
-  
-  // 🔥 Backend (FIXED URL)
   fetch("https://jyotish-backend-gbr9.onrender.com/api/website-submit", {
     method: "POST",
     body: formData
-  }).catch(() => console.log("Backend failed"));
-
-  // 🔥 Reset form
-  form.reset();
-
+  })
+  .then(res => res.json())
+  .then(data => {
+    if(!data.success && attempt < 5){
+      setTimeout(() => saveLeadWithRetry(formData, attempt+1), 3000);
+    }
+  })
+  .catch(() => {
+    if(attempt < 5){
+      setTimeout(() => saveLeadWithRetry(formData, attempt+1), 3000);
+    }
+  });
 }
 
 </script>  
