@@ -792,67 +792,62 @@ function sendWhatsApp(){
   const form = document.getElementById("palmForm");
   const formData = new FormData(form);
 
-  const name = document.getElementById("client_name").value;
-  const phone = document.getElementById("phone").value;
-  const dob = document.getElementById("dob").value;
-  const tob = document.getElementById("tob").value;
-  const place = document.getElementById("place").value;
-  const plan = document.getElementById("plan").value;
+  const btn = document.getElementById("submitBtn");
+  const msgBox = document.getElementById("submitMsg");
 
-  const statusMsg = document.getElementById("submitMsg");
-  
-  // ✅ STRICT IMAGE CHECK (FINAL)
-  const files = document.querySelectorAll('input[name="images"]');
+  if(btn.disabled) return;
 
-  let filled = 0;
-  files.forEach(f => {
-    if(f.files.length > 0) filled++;
-  });
+  btn.disabled = true;
+  btn.innerText = "Processing...";
+  msgBox.style.display = "block";
 
-  if(filled !== 4){
-    alert("कृपया सभी 4 स्पष्ट हथेली की फोटो अपलोड करें");
-    return;
-  }
+  const name = document.getElementById("client_name").value || "-";
+  const phone = document.getElementById("phone").value || "-";
+  const dob = document.getElementById("dob").value || "-";
+  const tob = document.getElementById("tob").value || "-";
+  const place = document.getElementById("place").value || "-";
+  const plan = document.getElementById("plan").value || "-";
 
-  statusMsg.innerText = "⏳ प्रोसेस हो रहा है...";
-  statusMsg.style.display = "block";
-
-  // ✅ WHATSAPP INSTANT (NO WAIT)
-  let msg = `जय श्री राधे 🙏  
+  let msg = `नमस्ते 🙏  
 
 मैंने आपकी वेबसाइट पर अपनी हथेली की रिपोर्ट के लिए जानकारी भेज दी है।
 
-📌 हस्तरेखा परामर्श विवरण:
+📌 *हस्तरेखा परामर्श विवरण:*
 
 👤 नाम: ${name}  
 📞 मोबाइल: ${phone}  
 📅 जन्म तिथि: ${dob}  
-⏰ समय: ${tob || "-"}  
-📍 स्थान: ${place || "-"}  
-🧾 प्लान: ${plan}
+⏰ जन्म समय: ${tob}  
+📍 जन्म स्थान: ${place}  
+🧾 प्लान: ${plan}  
 
 कृपया आगे की प्रक्रिया बताएं।`;
 
+  // 🔥 WhatsApp
   window.open(
     "https://wa.me/918404011650?text=" + encodeURIComponent(msg),
     "_blank"
   );
 
-  // ✅ BACKEND CALL (NON BLOCKING)
+// 🔥 FIX: hide processing message
+msgBox.style.display = "none";
+
+ // 🔥 FIX: reset button
+btn.disabled = false;
+btn.innerText = "अभी जानकारी भेजें & रिपोर्ट शुरू करें"; 
+  
+  // 🔥 Backend (FIXED URL)
   fetch("https://jyotish-backend-gbr9.onrender.com/api/website-submit", {
     method: "POST",
     body: formData
-  });
+  }).catch(() => console.log("Backend failed"));
 
-  // ✅ INSTANT RESET (NO WAIT)
+  // 🔥 Reset form
   form.reset();
 
-  statusMsg.innerText = "✅ जानकारी भेज दी गई है";
-  setTimeout(()=>{
-    statusMsg.style.display = "none";
-  },2000);
 }
-</script>
+
+</script>  
   
 <script>
 
