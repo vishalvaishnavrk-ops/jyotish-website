@@ -679,7 +679,7 @@ section.plan-section{
 </p>
 
 <div class="form-wrapper">  
-<form id="palmForm" enctype="multipart/form-data">
+<form id="palmForm" enctype="multipart/form-data" onsubmit="event.preventDefault(); sendWhatsApp();">
 <label>पूरा नाम <span style="color:red">*</span></label>
 <input id="client_name" name="name" placeholder="पूरा नाम" required>
 <label>मोबाइल नंबर <span style="color:red">*</span></label>
