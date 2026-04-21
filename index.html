@@ -803,6 +803,7 @@ function sendWhatsApp(){
   const place = document.getElementById("place").value;
   const plan = document.getElementById("plan").value;
 
+  const submitBtn = document.getElementById("submitBtn");
   const statusMsg = document.getElementById("submitMsg");
   
   // 🔥 STEP 1 — IMAGE STRICT CHECK (FIXED)
@@ -823,9 +824,11 @@ function sendWhatsApp(){
   formData.append("client_request_id", requestId);
 
   // 🔥 STEP 3 — UI LOCK
-  statusMsg.innerText = "⏳ कृपया प्रतीक्षा करें...";
+  submitBtn.disabled = true;
+  submitBtn.innerText = "प्रोसेस हो रहा है...";
+  statusMsg.innerText = "⏳ WhatsApp खुल रहा है… कृपया प्रतीक्षा करें";
   statusMsg.style.display = "block";
-
+  
   // 🔥 STEP 4 — WHATSAPP INSTANT
   let msg = `जय श्री राधे 🙏  
 
@@ -869,19 +872,54 @@ function saveLeadWithRetry(form, requestId, attempt){
   .then(res => res.json())
   .then(data => {
 
-    if(!data.success && attempt < 3){
+    if(data.success){
+      // ✅ SUCCESS → अब reset करो
+      form.reset();
+
+      const submitBtn = document.getElementById("submitBtn");
+      const statusMsg = document.getElementById("submitMsg");
+
+      submitBtn.disabled = false;
+      submitBtn.innerText = "अभी जानकारी भेजें & रिपोर्ट शुरू करें";
+
+      statusMsg.innerText = "✅ आपकी जानकारी सफलतापूर्वक भेज दी गई है";
+      
+      // 3 सेकंड बाद message hide
+      setTimeout(()=>{
+        statusMsg.style.display = "none";
+      },3000);
+
+      return;
+    }
+
+    // 🔁 retry
+    if(attempt < 3){
       setTimeout(() => saveLeadWithRetry(form, requestId, attempt+1), 2000);
+    } else {
+      failUI();
     }
 
   })
   .catch(() => {
-
     if(attempt < 3){
       setTimeout(() => saveLeadWithRetry(form, requestId, attempt+1), 2000);
+    } else {
+      failUI();
     }
-
   });
 
+}
+
+
+// ❌ FAIL CASE UI
+function failUI(){
+  const submitBtn = document.getElementById("submitBtn");
+  const statusMsg = document.getElementById("submitMsg");
+
+  submitBtn.disabled = false;
+  submitBtn.innerText = "फिर से प्रयास करें";
+
+  statusMsg.innerText = "⚠️ नेटवर्क समस्या, कृपया दोबारा प्रयास करें";
 }
 </script>  
   
